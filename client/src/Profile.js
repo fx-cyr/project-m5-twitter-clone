@@ -1,9 +1,11 @@
-import React from "react"
+import React from "react";
+import { useCurrentUser } from "./CurrentUserContext";
 
 const Profile = () => {
-  return (
-    <div>Profile</div>
-    )
-}
+  const { currentUser, setCurrentUser } = useCurrentUser();
+  const name = currentUser["displayName"];
+  console.log(name);
+  return <div>{name}</div>;
+};
 
 export default Profile;
