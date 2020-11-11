@@ -41,6 +41,7 @@ const Sidebar = () => {
 
 const Wrapper = styled.div`
   margin: 10px;
+  width: 230px;
 `;
 
 const Navigation = styled.div`

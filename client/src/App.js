@@ -6,6 +6,7 @@ import Notifications from "./Notifications";
 import Bookmarks from "./Bookmarks";
 import TweetDetails from "./TweetDetails";
 import Profile from "./Profile";
+import UserProfile from "./UserProfile";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { CurrentUserProvider } from "./CurrentUserContext";
@@ -31,8 +32,11 @@ const App = (props) => {
               <Route exact path="/tweet/:tweetId">
                 <TweetDetails />
               </Route>
-              <Route exact path="/:profileId">
+              <Route exact path="/profile">
                 <Profile />
+              </Route>
+              <Route exact path="/:profileId">
+                <UserProfile />
               </Route>
             </Switch>
           </Router>
