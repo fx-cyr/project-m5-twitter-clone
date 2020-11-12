@@ -7,7 +7,7 @@ import HomeFeed from "./HomeFeed";
 import Tweet from "./SmallTweet";
 
 const Profile = () => {
-  const { currentUser, setCurrentUser, userFeedTweets } = useCurrentUser();
+  const { currentUser, loadingStatus } = useCurrentUser();
   const name = currentUser["displayName"];
   const handle = currentUser["handle"];
   const avatarSrc = currentUser["avatarSrc"];
@@ -29,7 +29,9 @@ const Profile = () => {
     followStatus = null;
   }
 
-  return (
+  return loadingStatus === "loading" ? (
+    "Loading..."
+  ) : (
     <Wrapper>
       <ImgWrapper>
         <Banner src={bannerSrc}></Banner>

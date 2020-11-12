@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useCurrentUser } from "./CurrentUserContext";
 import styled from "styled-components";
 import { GrLocation } from "react-icons/gr";
 import { FiCalendar } from "react-icons/fi";
 import { useParams } from "react-router";
+import { useCurrentUser } from "./CurrentUserContext";
 import Tweet from "./SmallTweet";
 
 const Profile = () => {
+  const { loadingStatus } = useCurrentUser();
   const [currentProfile, setCurrentProfile] = useState([]);
   const [userFeed, setUserFeed] = useState([]);
   let { profileId } = useParams();
 
   useEffect(() => {
-    fetch(`api/${profileId}/profile`)
+    fetch(`/api/${profileId}/profile`)
       .then((res) => {
         return res.json();
       })
@@ -53,8 +54,9 @@ const Profile = () => {
   } else {
     followStatus = null;
   }
-
-  return (
+  return loadingStatus === "loading" ? (
+    "Loading..."
+  ) : (
     <Wrapper>
       <ImgWrapper>
         <Banner src={bannerSrc}></Banner>

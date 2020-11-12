@@ -5,7 +5,7 @@ export const CurrentUserContext = createContext(null);
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState([]);
   const [currentHomeFeed, setCurrentHomeFeed] = useState([]);
-  const [status, setStatus] = useState("loading");
+  const [loadingStatus, setLoadingStatus] = useState("loading");
   const [isLiked, setIsLiked] = useState(false);
   const [isRetweeted, setIsRetweeted] = useState(false);
   const isRetweetedByCurrentUser = isRetweeted;
@@ -22,6 +22,8 @@ export const CurrentUserProvider = ({ children }) => {
       })
       .then((json) => {
         setCurrentUser(json.profile);
+        setLoadingStatus("ready to view");
+        console.log(loadingStatus);
       });
   }, []);
 
@@ -77,6 +79,8 @@ export const CurrentUserProvider = ({ children }) => {
         isRetweetedByCurrentUser,
         userFeed,
         setUserFeed,
+        loadingStatus,
+        setLoadingStatus,
       }}
     >
       {children}

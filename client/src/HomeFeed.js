@@ -14,10 +14,14 @@ const HomeFeed = () => {
     setNumOfRetweets,
     isLikedByCurrentUser,
     isRetweetedByCurrentUser,
+    loadingStatus,
   } = useCurrentUser();
   const homeFeedTweets = Object.values(currentHomeFeed);
+  console.log(loadingStatus);
 
-  return (
+  return loadingStatus === "Loading..." ? (
+    "loading"
+  ) : (
     <Wrapper>
       {homeFeedTweets.map((tweet) => {
         if (tweet.author.isBeingFollowedByYou) {
@@ -38,7 +42,9 @@ const HomeFeed = () => {
 };
 
 const Wrapper = styled.div`
-  margin-left: 15px;
+  width: 100%;
+  padding: 0 15px;
+  border: 1px solid lightgrey;
 `;
 
 export default HomeFeed;
