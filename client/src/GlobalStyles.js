@@ -4,7 +4,7 @@ const GlobalStyles = createGlobalStyle`
   html, body, div,
   input, button, select, option,
   h1, h2, h3, h4, h5, h6, p,
-  text {
+  text, textarea {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
 

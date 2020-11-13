@@ -10,6 +10,7 @@ const Profile = () => {
   const { loadingStatus } = useCurrentUser();
   const [currentProfile, setCurrentProfile] = useState([]);
   const [userFeed, setUserFeed] = useState([]);
+
   let { profileId } = useParams();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Profile = () => {
   const isFollowing = Object.values({ isFollowingYou });
   const trueOrFalse = isFollowing[0];
   let followStatus;
-  if (trueOrFalse == false) {
+  if (trueOrFalse === false) {
     followStatus = <IsFollowingYou>Follows you</IsFollowingYou>;
   } else {
     followStatus = null;

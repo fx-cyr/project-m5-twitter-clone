@@ -10,7 +10,6 @@ import UserProfile from "./UserProfile";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { CurrentUserProvider } from "./CurrentUserContext";
-import { useCurrentUser } from "./CurrentUserContext";
 
 const App = () => {
   // const { loadingStatus } = useCurrentUser();
