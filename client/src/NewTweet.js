@@ -6,11 +6,9 @@ const NewTweet = ({ homeFeedTweets }) => {
   const { currentUser, getHomeFeed } = useCurrentUser();
   const [value, setValue] = useState("");
   const currentUserAvatar = currentUser["avatarSrc"];
-  console.log(homeFeedTweets);
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    console.log("inside handleSubmiot");
     if (value.length > 0) {
       fetch("/api/tweet", {
         method: "POST",
@@ -26,30 +24,32 @@ const NewTweet = ({ homeFeedTweets }) => {
         .then((data) => {
           // homeFeedTweets.push(data);
           getHomeFeed();
-          console.log("inside", homeFeedTweets);
         });
     }
     setValue("");
   };
   return (
-    <>
-      <NewTweetContainer>
-        <CurrentUserAvatar src={currentUserAvatar}></CurrentUserAvatar>
-        <NewTweetBox onSubmit={handleSubmit}>
-          <TweetInput
-            placeholder="What's happening?"
-            onChange={(event) => {
-              setValue(event.target.value);
-              console.log(value);
-            }}
-          ></TweetInput>
+    <Wrapper>
+      <CurrentUserAvatar src={currentUserAvatar}></CurrentUserAvatar>
+      <NewTweetBox onSubmit={handleSubmit}>
+        <TweetInput
+          placeholder="What's happening?"
+          onChange={(event) => {
+            setValue(event.target.value);
+            console.log(value);
+          }}
+        ></TweetInput>
 
-          <PostButton type="submit">Meow</PostButton>
-        </NewTweetBox>
-      </NewTweetContainer>
-    </>
+        <PostButton type="submit">Meow</PostButton>
+      </NewTweetBox>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  width: 80%;
+  display: flex;
+`;
 
 const NewTweetBox = styled.form`
   display: flex;
@@ -68,14 +68,6 @@ const TweetInput = styled.textarea`
   border: 0px solid;
 `;
 
-const PostButton = styled.button`
-  display: flex;
-  justify-content: right;
-`;
-
-const NewTweetContainer = styled.div`
-  width: 80%;
-  display: flex;
-`;
+const PostButton = styled.button``;
 
 export default NewTweet;

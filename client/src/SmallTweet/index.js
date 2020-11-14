@@ -4,9 +4,11 @@ import { AiOutlineRetweet } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { FiUpload } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
+import ActionBar from "./ActionBar";
 
 const Tweet = ({
   tweet,
+  tweetId,
   status,
   displayName,
   username,
@@ -17,41 +19,13 @@ const Tweet = ({
   numRetweets,
   retweetFrom,
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isRetweeted, setIsRetweeted] = useState(false);
-  const isRetweetedByCurrentUser = isRetweeted;
-  const isLikedByCurrentUser = isLiked;
-  const [numOfLikes, setNumOfLikes] = useState(null);
-  const [numOfRetweets, setNumOfRetweets] = useState(null);
+  console.log(`${tweetId}: ${tweet.isLiked}`);
+  const [isLiked, setIsLiked] = useState(tweet.isLiked);
+  const [numOfLikes, setNumOfLikes] = useState(tweet.numLikes);
+  const [isRetweeted, setIsRetweeted] = useState(tweet.isRetweeted);
+  const [numOfRetweets, setNumOfRetweets] = useState(tweet.numRetweets);
+  console.log(numOfRetweets);
 
-  useEffect(() => {
-    setNumOfLikes(numLikes);
-    setNumOfRetweets(numRetweets);
-  }, [tweet]);
-
-  const handleToggleLike = () => {
-    if (!isLiked) {
-      setIsLiked(true);
-      setNumOfLikes(numOfLikes + 1);
-      console.log("+1");
-    } else {
-      setIsLiked(false);
-      setNumOfLikes(numOfLikes - 1);
-      console.log("-1");
-    }
-  };
-
-  const handleToggleRetweet = () => {
-    if (!isRetweeted) {
-      setIsRetweeted(true);
-      setNumOfRetweets(numOfRetweets + 1);
-      console.log("+1");
-    } else {
-      setIsRetweeted(false);
-      setNumOfRetweets(numOfRetweets - 1);
-      console.log("-1");
-    }
-  };
   return (
     <Wrapper>
       {retweetFrom ? (
@@ -72,7 +46,18 @@ const Tweet = ({
           {media.map((media) => (
             <Media src={media.url} key={Math.random(100000)}></Media>
           ))}
-          <ActionBar>
+          <ActionBar
+            isLiked={isLiked}
+            setIsLiked={setIsLiked}
+            numOfLikes={numOfLikes}
+            setNumOfLikes={setNumOfLikes}
+            isRetweeted={isRetweeted}
+            setIsRetweeted={setIsRetweeted}
+            numOfRetweets={numOfRetweets}
+            setNumOfRetweets={setNumOfRetweets}
+            tweetId={tweet.id}
+          />
+          {/* <ActionBar>
             <Action>
               <FiBookmark />
             </Action>
@@ -80,18 +65,24 @@ const Tweet = ({
               <Button onClick={handleToggleRetweet}>
                 <AiOutlineRetweet />
               </Button>{" "}
-              <Stat>{numOfRetweets}</Stat>
             </Action>
             <Action>
-              <Button onClick={handleToggleLike}>
-                <FiHeart size="2x" />{" "}
+              <Button
+                onClick={(tweetId) => {
+                  handleToggleLike(tweetId);
+                }}
+              >
+                <FiHeart
+                  size="2x"
+                  fill={likedTweet ? "rgb(224, 36, 94)" : undefined}
+                />
               </Button>
               <Stat>{numOfLikes}</Stat>
             </Action>
             <Action>
               <FiUpload />
             </Action>
-          </ActionBar>
+          </ActionBar> */}
         </Content>
       </Header>
     </Wrapper>
@@ -115,6 +106,15 @@ const Avatar = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50%;
+`;
+const RetweetFromContainer = styled.div`
+  display: flex;
+  margin-left: 30px;
+  margin-bottom: 15px;
+`;
+const RetweetFrom = styled.div`
+  color: rgb(101, 119, 134);
+  padding: 0 7px;
 `;
 
 const Content = styled.div`
@@ -157,37 +157,37 @@ const Media = styled.img`
   border-radius: 12px;
 `;
 
-const ActionBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 15px;
-`;
+// const ActionBar = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin: 5px 15px;
+// `;
 
-const Action = styled.div`
-  display: flex;
-  align-items: center;
-`;
+// const Action = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
 
-const Button = styled.button`
-  background-color: white;
-  border: 0px solid;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-`;
+// const Button = styled.button`
+//   background-color: white;
+//   border: 0px solid;
+//   width: 30px;
+//   height: 30px;
+//   border-radius: 50%;
+// `;
 
-const Stat = styled.div`
-  margin-left: 5px;
-  font-weight: bold;
-`;
-const RetweetFromContainer = styled.div`
-  display: flex;
-  margin-left: 30px;
-  margin-bottom: 15px;
-`;
-const RetweetFrom = styled.div`
-  color: rgb(101, 119, 134);
-  padding: 0 7px;
-`;
+// const Stat = styled.div`
+//   margin-left: 5px;
+//   font-weight: bold;
+// `;
+// const RetweetFromContainer = styled.div`
+//   display: flex;
+//   margin-left: 30px;
+//   margin-bottom: 15px;
+// `;
+// const RetweetFrom = styled.div`
+//   color: rgb(101, 119, 134);
+//   padding: 0 7px;
+// `;
 export default Tweet;

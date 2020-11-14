@@ -12,7 +12,6 @@ const HomeFeed = () => {
     homeFeedTweets,
   } = useCurrentUser();
   const currentUserAvatar = currentUser["avatarSrc"];
-  console.log(homeFeedTweets);
 
   return loadingStatus === "Loading..." ? (
     "loading"
@@ -24,6 +23,7 @@ const HomeFeed = () => {
         .map((tweet) => {
           return (
             <Tweet
+              tweetId={tweet.id}
               key={Math.random(1000000)}
               tweet={tweet}
               status={tweet.status}
@@ -35,6 +35,7 @@ const HomeFeed = () => {
               numLikes={tweet.numLikes}
               numRetweets={tweet.numRetweets}
               retweetFrom={tweet.retweetFrom}
+              isLiked={tweet.isLiked}
             />
           );
         })
