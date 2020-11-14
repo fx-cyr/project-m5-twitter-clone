@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import { useCurrentUser } from "./CurrentUserContext";
 import Tweet from "./SmallTweet";
 
-const Profile = () => {
+const UserProfile = () => {
   const { loadingStatus } = useCurrentUser();
   const [currentProfile, setCurrentProfile] = useState([]);
   const [userFeed, setUserFeed] = useState([]);
@@ -34,7 +34,6 @@ const Profile = () => {
   });
 
   const userFeedTweets = Object.values(userFeed);
-
   const name = currentProfile["displayName"];
   const handle = currentProfile["handle"];
   const avatarSrc = currentProfile["avatarSrc"];
@@ -88,12 +87,19 @@ const Profile = () => {
       {userFeedTweets.map((tweet) => {
         return (
           <Tweet
+            tweetId={tweet.id}
+            key={Math.random(1000000)}
+            tweet={tweet}
             status={tweet.status}
             displayName={tweet.author.displayName}
             username={tweet.author.handle}
             avatar={tweet.author.avatarSrc}
             media={tweet.media}
             timestamp={tweet.timestamp}
+            numLikes={tweet.numLikes}
+            numRetweets={tweet.numRetweets}
+            retweetFrom={tweet.retweetFrom}
+            isLiked={tweet.isLiked}
           />
         );
       })}
@@ -192,4 +198,4 @@ const Bold = styled.span`
   margin-right: 6px;
 `;
 
-export default Profile;
+export default UserProfile;

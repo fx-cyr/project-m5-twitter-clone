@@ -12,8 +12,6 @@ import Sidebar from "./Sidebar";
 import { CurrentUserProvider } from "./CurrentUserContext";
 
 const App = () => {
-  // const { loadingStatus } = useCurrentUser();
-  // console.log(loadingStatus);
   return (
     <>
       <CurrentUserProvider>

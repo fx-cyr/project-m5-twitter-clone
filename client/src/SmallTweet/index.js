@@ -24,7 +24,6 @@ const Tweet = ({
   const [numOfLikes, setNumOfLikes] = useState(tweet.numLikes);
   const [isRetweeted, setIsRetweeted] = useState(tweet.isRetweeted);
   const [numOfRetweets, setNumOfRetweets] = useState(tweet.numRetweets);
-  console.log(numOfRetweets);
 
   return (
     <Wrapper>

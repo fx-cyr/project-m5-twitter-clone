@@ -36,7 +36,6 @@ const NewTweet = ({ homeFeedTweets }) => {
           placeholder="What's happening?"
           onChange={(event) => {
             setValue(event.target.value);
-            console.log(value);
           }}
         ></TweetInput>
 
