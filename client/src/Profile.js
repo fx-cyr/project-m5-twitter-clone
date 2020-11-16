@@ -7,6 +7,7 @@ import HomeFeed from "./HomeFeed";
 import Tweet from "./SmallTweet";
 import Loading from "./Loading";
 import ErrorPage from "./Error";
+import moment from "moment";
 
 const Profile = () => {
   const { currentUser, loadingStatus, errorMsg } = useCurrentUser();
@@ -64,7 +65,9 @@ const Profile = () => {
               <GrLocation />
               <Location>{location}</Location>
               <FiCalendar />
-              <JoinedDate>Joined {joinedDate}</JoinedDate>
+              <JoinedDate>
+                Joined {moment(new Date(joinedDate)).format("MMMM YYYY")}
+              </JoinedDate>
             </ProfileHistory>
             <FollowStats>
               <Stats>

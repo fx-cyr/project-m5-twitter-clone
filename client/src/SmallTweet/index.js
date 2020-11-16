@@ -6,6 +6,7 @@ import { FiUpload } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import ActionBar from "./ActionBar";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 
 const Tweet = ({
   tweet,
@@ -51,7 +52,10 @@ const Tweet = ({
               {displayName}
             </DisplayName>
             <Username>@{username}</Username>
-            <Timestamp>{timestamp}</Timestamp>
+            {/* <Timestamp>{timestamp}</Timestamp> */}
+            <Timestamp>
+              {moment(new Date(timestamp)).format("MMM Do")}
+            </Timestamp>
           </Name>
           <Status onClick={handleTweetClick}>{status}</Status>
           {media.map((media) => (
@@ -164,6 +168,7 @@ const Username = styled.div`
 const Timestamp = styled.div`
   color: rgb(101, 119, 134);
   font-size: 16px;
+  margin-left: 10px;
 `;
 
 const Status = styled.div`

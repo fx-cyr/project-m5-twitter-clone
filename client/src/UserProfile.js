@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import { useCurrentUser } from "./CurrentUserContext";
 import Tweet from "./SmallTweet";
 import Loading from "./Loading";
+import moment from "moment";
 
 const UserProfile = () => {
   const { loadingStatus } = useCurrentUser();
@@ -74,7 +75,9 @@ const UserProfile = () => {
           <GrLocation />
           <Location>{location}</Location>
           <FiCalendar />
-          <JoinedDate>Joined {joinedDate}</JoinedDate>
+          <JoinedDate>
+            Joined {moment(new Date(joinedDate)).format("MMMM YYYY")}
+          </JoinedDate>
         </ProfileHistory>
         <FollowStats>
           <Stats>

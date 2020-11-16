@@ -8,6 +8,7 @@ import { FiBookmark } from "react-icons/fi";
 import { useCurrentUser } from "../CurrentUserContext";
 import ErrorPage from "../Error";
 import Loading from "../Loading";
+import moment from "moment";
 
 const TweetDetails = () => {
   const {
@@ -57,7 +58,12 @@ const TweetDetails = () => {
               {tweetDetails.media.map((media) => (
                 <Media src={media.url}></Media>
               ))}
-              <Timestamp>{tweetDetails.timestamp}</Timestamp>
+              <Timestamp>
+                {" "}
+                {moment(new Date(tweetDetails.timestamp)).format(
+                  "h:mm a, MMM Do YYYY"
+                )}
+              </Timestamp>
               <Divider />
               <ActionBar>
                 <Action>
