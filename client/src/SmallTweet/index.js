@@ -46,6 +46,7 @@ const Tweet = ({
         <Content>
           <Name>
             <DisplayName
+              tabIndex="0"
               aria-label="Visit the user's page"
               onClick={handleHandleClick}
             >
@@ -57,9 +58,17 @@ const Tweet = ({
               {moment(new Date(timestamp)).format("MMM Do")}
             </Timestamp>
           </Name>
-          <Status onClick={handleTweetClick}>{status}</Status>
+          <Status
+            tabIndex="0"
+            aria-label="View tweet"
+            onClick={handleTweetClick}
+          >
+            {status}
+          </Status>
           {media.map((media) => (
             <Media
+              tabIndex="0"
+              aria-label="View tweet"
               onClick={handleTweetClick}
               src={media.url}
               key={Math.random(100000)}
