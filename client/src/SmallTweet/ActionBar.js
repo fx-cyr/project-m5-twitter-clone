@@ -74,10 +74,7 @@ const ActionBar = ({
             handleToggleRetweet(tweetId);
           }}
         >
-          <AiOutlineRetweet
-            size="2x"
-            fill={isRetweeted ? "rgb(224, 36, 94)" : "black"}
-          />
+          <AiOutlineRetweet fill={isRetweeted ? "rgb(23, 191, 99)" : "black"} />
         </Button>
         <Stat>{numOfRetweets}</Stat>
       </Action>
@@ -87,10 +84,7 @@ const ActionBar = ({
             handleToggleLike(tweetId);
           }}
         >
-          <FiHeart
-            size="2x"
-            fill={isLiked ? "rgb(224, 36, 94)" : "transparent"}
-          />
+          <FiHeart fill={isLiked ? "rgb(224, 36, 94)" : "transparent"} />
         </Button>
         <Stat>{numOfLikes}</Stat>
       </Action>

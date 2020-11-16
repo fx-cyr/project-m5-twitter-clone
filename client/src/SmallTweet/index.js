@@ -5,6 +5,7 @@ import { FiHeart } from "react-icons/fi";
 import { FiUpload } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import ActionBar from "./ActionBar";
+import { useHistory } from "react-router-dom";
 
 const Tweet = ({
   tweet,
@@ -19,11 +20,17 @@ const Tweet = ({
   numRetweets,
   retweetFrom,
 }) => {
-  console.log(`${tweetId}: ${tweet.isLiked}`);
   const [isLiked, setIsLiked] = useState(tweet.isLiked);
   const [numOfLikes, setNumOfLikes] = useState(tweet.numLikes);
   const [isRetweeted, setIsRetweeted] = useState(tweet.isRetweeted);
   const [numOfRetweets, setNumOfRetweets] = useState(tweet.numRetweets);
+  const history = useHistory();
+  const handleHandleClick = () => {
+    history.push(`/${username}`);
+  };
+  const handleTweetClick = () => {
+    history.push(`/tweet/${tweetId}`);
+  };
 
   return (
     <Wrapper>
@@ -37,13 +44,22 @@ const Tweet = ({
         <Avatar src={avatar} />
         <Content>
           <Name>
-            <DisplayName>{displayName}</DisplayName>
+            <DisplayName
+              aria-label="Visit the user's page"
+              onClick={handleHandleClick}
+            >
+              {displayName}
+            </DisplayName>
             <Username>@{username}</Username>
             <Timestamp>{timestamp}</Timestamp>
           </Name>
-          <Status>{status}</Status>
+          <Status onClick={handleTweetClick}>{status}</Status>
           {media.map((media) => (
-            <Media src={media.url} key={Math.random(100000)}></Media>
+            <Media
+              onClick={handleTweetClick}
+              src={media.url}
+              key={Math.random(100000)}
+            ></Media>
           ))}
           <ActionBar
             isLiked={isLiked}
@@ -89,9 +105,9 @@ const Tweet = ({
 };
 
 const Wrapper = styled.div`
+  padding-right: 16px;
   background: white;
-  width: 80%;
-  padding: 16px;
+  margin: 16px;
   text-align: left;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Ubuntu, "Helvetica Neue", sans-serif;
@@ -132,6 +148,10 @@ const DisplayName = styled.div`
   font-size: 15px;
   line-height: 20px;
   font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 const Username = styled.div`
@@ -148,12 +168,18 @@ const Timestamp = styled.div`
 
 const Status = styled.div`
   padding: 3px 16px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Media = styled.img`
   width: 100%;
   margin: 5px 15px;
   border-radius: 12px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 // const ActionBar = styled.div`

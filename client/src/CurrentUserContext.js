@@ -8,17 +8,23 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentHomeFeed, setCurrentHomeFeed] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState("loading");
   const [userFeed, setUserFeed] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
   //fetch current profile
   useEffect(() => {
     fetch("/api/me/profile")
       .then((res) => {
+        console.log(loadingStatus);
         return res.json();
       })
       .then((json) => {
         setCurrentUser(json.profile);
-        setLoadingStatus("ready to view");
+        setLoadingStatus("loaded");
         console.log(loadingStatus);
+      })
+      .catch((error) => {
+        setLoadingStatus("error");
+        setErrorMsg("error");
       });
   }, []);
 
@@ -32,11 +38,17 @@ export const CurrentUserProvider = ({ children }) => {
         return res.json();
       })
       .then((json) => {
+        setLoadingStatus("loaded");
+
         setCurrentHomeFeed(json.tweetsById);
         setHomeFeedTweets(Object.values(json.tweetsById));
+      })
+      .catch((error) => {
+        setErrorMsg("error");
       });
   };
   // const homeFeedTweets = Object.values(currentHomeFeed);
+  console.log(loadingStatus);
 
   return (
     <CurrentUserContext.Provider
@@ -48,6 +60,8 @@ export const CurrentUserProvider = ({ children }) => {
         loadingStatus,
         setLoadingStatus,
         getHomeFeed,
+        errorMsg,
+        setErrorMsg,
       }}
     >
       {children}

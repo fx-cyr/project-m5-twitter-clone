@@ -5,6 +5,7 @@ import { FiCalendar } from "react-icons/fi";
 import { useParams } from "react-router";
 import { useCurrentUser } from "./CurrentUserContext";
 import Tweet from "./SmallTweet";
+import Loading from "./Loading";
 
 const UserProfile = () => {
   const { loadingStatus } = useCurrentUser();
@@ -55,7 +56,7 @@ const UserProfile = () => {
     followStatus = null;
   }
   return loadingStatus === "loading" ? (
-    "Loading..."
+    <Loading />
   ) : (
     <Wrapper>
       <ImgWrapper>
@@ -84,25 +85,29 @@ const UserProfile = () => {
           </Stats>
         </FollowStats>
       </InfoWrapper>
-      {userFeedTweets.map((tweet) => {
-        return (
-          <Tweet
-            tweetId={tweet.id}
-            key={Math.random(1000000)}
-            tweet={tweet}
-            status={tweet.status}
-            displayName={tweet.author.displayName}
-            username={tweet.author.handle}
-            avatar={tweet.author.avatarSrc}
-            media={tweet.media}
-            timestamp={tweet.timestamp}
-            numLikes={tweet.numLikes}
-            numRetweets={tweet.numRetweets}
-            retweetFrom={tweet.retweetFrom}
-            isLiked={tweet.isLiked}
-          />
-        );
-      })}
+      <TweetSection>
+        {userFeedTweets
+          .map((tweet) => {
+            return (
+              <Tweet
+                tweetId={tweet.id}
+                key={Math.random(1000000)}
+                tweet={tweet}
+                status={tweet.status}
+                displayName={tweet.author.displayName}
+                username={tweet.author.handle}
+                avatar={tweet.author.avatarSrc}
+                media={tweet.media}
+                timestamp={tweet.timestamp}
+                numLikes={tweet.numLikes}
+                numRetweets={tweet.numRetweets}
+                retweetFrom={tweet.retweetFrom}
+                isLiked={tweet.isLiked}
+              />
+            );
+          })
+          .reverse()}
+      </TweetSection>
     </Wrapper>
   );
 };
@@ -110,6 +115,10 @@ const UserProfile = () => {
 const Wrapper = styled.div`
   margin: 7px;
   border: 1px solid lightgrey;
+`;
+
+const TweetSection = styled.div`
+  padding: 0 15px;
 `;
 
 const ImgWrapper = styled.div`

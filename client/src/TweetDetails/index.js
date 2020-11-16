@@ -6,57 +6,79 @@ import { FiHeart } from "react-icons/fi";
 import { FiUpload } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { useCurrentUser } from "../CurrentUserContext";
+import ErrorPage from "../Error";
+import Loading from "../Loading";
 
 const TweetDetails = () => {
-  const { loadingStatus } = useCurrentUser();
+  const {
+    loadingStatus,
+    setLoadingStatus,
+    errorMsg,
+    setErrorMsg,
+  } = useCurrentUser();
   const [tweetDetails, setTweetDetails] = useState(null);
   let { tweetId } = useParams();
 
   useEffect(() => {
-    fetch(`/api/tweet/${tweetId}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setTweetDetails(json.tweet);
-      });
+    if (tweetId) {
+      fetch(`/api/tweet/${tweetId}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          setTweetDetails(json.tweet);
+        })
+        .then(() => {
+          setLoadingStatus("loaded");
+        })
+        .catch((error) => {
+          setErrorMsg("error");
+        });
+    }
   });
 
-  return loadingStatus === "loading"
-    ? "Loading"
-    : tweetDetails && (
-        <Wrapper>
-          <Header>
-            <Avatar src={tweetDetails.author.avatarSrc} />
-            <Name>
-              <DisplayName>{tweetDetails.author.displayName}</DisplayName>
-              <Username>@{tweetDetails.author.handle}</Username>
-            </Name>
-          </Header>
-          <Content>
-            <Status>{tweetDetails.status}</Status>
-            {tweetDetails.media.map((media) => (
-              <Media src={media.url}></Media>
-            ))}
-            <Timestamp>{tweetDetails.timestamp}</Timestamp>
-            <Divider />
-            <ActionBar>
-              <Action>
-                <FiBookmark />
-              </Action>
-              <Action>
-                <AiOutlineRetweet />
-              </Action>
-              <Action>
-                <FiHeart />
-              </Action>
-              <Action>
-                <FiUpload />
-              </Action>
-            </ActionBar>
-          </Content>
-        </Wrapper>
-      );
+  return (
+    <>
+      {errorMsg === "error" && <ErrorPage />}
+      {loadingStatus === "loading" ? (
+        <Loading />
+      ) : (
+        tweetDetails && (
+          <Wrapper>
+            <Header>
+              <Avatar src={tweetDetails.author.avatarSrc} />
+              <Name>
+                <DisplayName>{tweetDetails.author.displayName}</DisplayName>
+                <Username>@{tweetDetails.author.handle}</Username>
+              </Name>
+            </Header>
+            <Content>
+              <Status>{tweetDetails.status}</Status>
+              {tweetDetails.media.map((media) => (
+                <Media src={media.url}></Media>
+              ))}
+              <Timestamp>{tweetDetails.timestamp}</Timestamp>
+              <Divider />
+              <ActionBar>
+                <Action>
+                  <FiBookmark />
+                </Action>
+                <Action>
+                  <AiOutlineRetweet />
+                </Action>
+                <Action>
+                  <FiHeart />
+                </Action>
+                <Action>
+                  <FiUpload />
+                </Action>
+              </ActionBar>
+            </Content>
+          </Wrapper>
+        )
+      )}
+    </>
+  );
 };
 
 const Wrapper = styled.div`

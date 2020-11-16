@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useCurrentUser } from "./CurrentUserContext";
 import styled from "styled-components";
 import { GrLocation } from "react-icons/gr";
 import { FiCalendar } from "react-icons/fi";
 import HomeFeed from "./HomeFeed";
 import Tweet from "./SmallTweet";
+import Loading from "./Loading";
+import ErrorPage from "./Error";
 
 const Profile = () => {
-  const { currentUser, loadingStatus } = useCurrentUser();
+  const { currentUser, loadingStatus, errorMsg } = useCurrentUser();
+  const [userFeed, setUserFeed] = useState([]);
   const name = currentUser["displayName"];
   const handle = currentUser["handle"];
   const avatarSrc = currentUser["avatarSrc"];
@@ -29,37 +32,75 @@ const Profile = () => {
     followStatus = null;
   }
 
-  return loadingStatus === "loading" ? (
-    "Loading..."
-  ) : (
-    <Wrapper>
-      <ImgWrapper>
-        <Banner src={bannerSrc}></Banner>
-        <Avatar src={avatarSrc}></Avatar>
-      </ImgWrapper>
-      <InfoWrapper>
-        <Name>{name}</Name>
-        <UserInfo>
-          <Handle>@{handle}</Handle>
-          {followStatus}
-        </UserInfo>
-        <Bio>{bio}</Bio>
-        <ProfileHistory>
-          <GrLocation />
-          <Location>{location}</Location>
-          <FiCalendar />
-          <JoinedDate>Joined {joinedDate}</JoinedDate>
-        </ProfileHistory>
-        <FollowStats>
-          <Stats>
-            <Bold>{numFollowing}</Bold>Following
-          </Stats>
-          <Stats>
-            <Bold>{numFollowers}</Bold>Followers
-          </Stats>
-        </FollowStats>
-      </InfoWrapper>
-    </Wrapper>
+  useEffect(() => {
+    fetch(`/api/${handle}/feed`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        setUserFeed(json.tweetsById);
+      });
+  });
+  const userFeedTweets = Object.values(userFeed);
+
+  return (
+    <>
+      {errorMsg === "error" && <ErrorPage />}
+      {loadingStatus === "loading" && <Loading />}
+      {loadingStatus === "loaded" && (
+        <Wrapper>
+          <ImgWrapper>
+            <Banner src={bannerSrc}></Banner>
+            <Avatar src={avatarSrc}></Avatar>
+          </ImgWrapper>
+          <InfoWrapper>
+            <Name>{name}</Name>
+            <UserInfo>
+              <Handle>@{handle}</Handle>
+              {followStatus}
+            </UserInfo>
+            <Bio>{bio}</Bio>
+            <ProfileHistory>
+              <GrLocation />
+              <Location>{location}</Location>
+              <FiCalendar />
+              <JoinedDate>Joined {joinedDate}</JoinedDate>
+            </ProfileHistory>
+            <FollowStats>
+              <Stats>
+                <Bold>{numFollowing}</Bold>Following
+              </Stats>
+              <Stats>
+                <Bold>{numFollowers}</Bold>Followers
+              </Stats>
+            </FollowStats>
+          </InfoWrapper>
+          <TweetSection>
+            {userFeedTweets
+              .map((tweet) => {
+                return (
+                  <Tweet
+                    tweetId={tweet.id}
+                    key={Math.random(1000000)}
+                    tweet={tweet}
+                    status={tweet.status}
+                    displayName={tweet.author.displayName}
+                    username={tweet.author.handle}
+                    avatar={tweet.author.avatarSrc}
+                    media={tweet.media}
+                    timestamp={tweet.timestamp}
+                    numLikes={tweet.numLikes}
+                    numRetweets={tweet.numRetweets}
+                    retweetFrom={tweet.retweetFrom}
+                    isLiked={tweet.isLiked}
+                  />
+                );
+              })
+              .reverse()}
+          </TweetSection>
+        </Wrapper>
+      )}
+    </>
   );
 };
 
@@ -152,6 +193,10 @@ const Bold = styled.span`
   color: black;
   font-weight: bold;
   margin-right: 6px;
+`;
+
+const TweetSection = styled.div`
+  padding: 0 15px;
 `;
 
 export default Profile;
