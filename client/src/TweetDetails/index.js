@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router";
-import { AiOutlineRetweet } from "react-icons/ai";
-import { FiHeart } from "react-icons/fi";
-import { FiUpload } from "react-icons/fi";
-import { FiBookmark } from "react-icons/fi";
 import { useCurrentUser } from "../CurrentUserContext";
 import ErrorPage from "../Error";
 import Loading from "../Loading";
-import moment from "moment";
+import BigTweet from "../BigTweet";
 
 const TweetDetails = () => {
   const {
@@ -44,44 +40,7 @@ const TweetDetails = () => {
       {loadingStatus === "loading" ? (
         <Loading />
       ) : (
-        tweetDetails && (
-          <Wrapper>
-            <Header>
-              <Avatar src={tweetDetails.author.avatarSrc} />
-              <Name>
-                <DisplayName>{tweetDetails.author.displayName}</DisplayName>
-                <Username>@{tweetDetails.author.handle}</Username>
-              </Name>
-            </Header>
-            <Content>
-              <Status>{tweetDetails.status}</Status>
-              {tweetDetails.media.map((media) => (
-                <Media src={media.url}></Media>
-              ))}
-              <Timestamp>
-                {" "}
-                {moment(new Date(tweetDetails.timestamp)).format(
-                  "h:mm a, MMM Do YYYY"
-                )}
-              </Timestamp>
-              <Divider />
-              <ActionBar>
-                <Action>
-                  <FiBookmark />
-                </Action>
-                <Action>
-                  <AiOutlineRetweet />
-                </Action>
-                <Action>
-                  <FiHeart />
-                </Action>
-                <Action>
-                  <FiUpload />
-                </Action>
-              </ActionBar>
-            </Content>
-          </Wrapper>
-        )
+        tweetDetails && <BigTweet tweetDetails={tweetDetails} />
       )}
     </>
   );

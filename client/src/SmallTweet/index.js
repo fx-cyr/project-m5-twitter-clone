@@ -85,32 +85,6 @@ const Tweet = ({
             setNumOfRetweets={setNumOfRetweets}
             tweetId={tweet.id}
           />
-          {/* <ActionBar>
-            <Action>
-              <FiBookmark />
-            </Action>
-            <Action>
-              <Button onClick={handleToggleRetweet}>
-                <AiOutlineRetweet />
-              </Button>{" "}
-            </Action>
-            <Action>
-              <Button
-                onClick={(tweetId) => {
-                  handleToggleLike(tweetId);
-                }}
-              >
-                <FiHeart
-                  size="2x"
-                  fill={likedTweet ? "rgb(224, 36, 94)" : undefined}
-                />
-              </Button>
-              <Stat>{numOfLikes}</Stat>
-            </Action>
-            <Action>
-              <FiUpload />
-            </Action>
-          </ActionBar> */}
         </Content>
       </Header>
     </Wrapper>

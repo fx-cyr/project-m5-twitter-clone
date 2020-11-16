@@ -10,8 +10,6 @@ import UserProfile from "./UserProfile";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { CurrentUserProvider } from "./CurrentUserContext";
-import { useCurrentUser } from "./CurrentUserContext";
-import ErrorPage from "./Error";
 const App = () => {
   return (
     <>

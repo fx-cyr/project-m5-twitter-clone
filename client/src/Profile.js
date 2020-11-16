@@ -22,7 +22,6 @@ const Profile = () => {
   const numFollowing = currentUser["numFollowing"];
   const numFollowers = currentUser["numFollowers"];
   const isFollowingYou = currentUser["isFollowingYou"];
-  const isBeingFollowedByYou = currentUser["isBeingFollowedByYou"];
 
   const isFollowing = Object.values({ isFollowingYou });
   const trueOrFalse = isFollowing[0];
